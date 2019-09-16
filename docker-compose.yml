@@ -1,0 +1,30 @@
+---
+version: '3.4'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+  rails:
+    build: ./rails-app
+    command: bash -c "bundle && bundle exec rails s -p 3000 -b '0.0.0.0'"
+
+    volumes:
+      - ./rails-app:/srv/rails-app
+      - bundler_cache:/usr/local/bundle
+    ports:
+      - '3000:3000'
+    working_dir: /srv/rails-app
+  frontend:
+    build: ./frontend
+    command: npm start
+    volumes:
+      - ./frontend:/srv/frontend
+    ports:
+      - '3001:3001'
+volumes:
+  bundler_cache:
