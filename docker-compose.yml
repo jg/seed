@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=testtest
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
-  # backend:
+  # b:
   #   build: ./rails-app
   #   command: bash -c "bundle && bundle exec rails s -p 3000 -b '0.0.0.0'"
 
@@ -21,7 +21,7 @@ services:
   #   working_dir: /srv/rails-app
   #   depends_on:
   #     - "db"
-  backend:
+  b:
     build: ./hanami
     command: bash -c "cd /srv/app && bundle && bundle exec hanami server --port=3000 --host=0.0.0.0"
     volumes:
@@ -29,10 +29,10 @@ services:
       - bundler_cache_hanami:/usr/local/bundle
     ports:
       - '3000:3000'
-    working_dir: /srv/hanami
+    working_dir: /srv/app
     depends_on:
       - "db"
-  frontend:
+  f:
     build: ./frontend
     command: npm start
     volumes:
@@ -40,7 +40,7 @@ services:
     ports:
       - '3001:3001'
     depends_on:
-      - "backend"
+      - "b"
 volumes:
   bundler_cache_rails:
   bundler_cache_hanami:
