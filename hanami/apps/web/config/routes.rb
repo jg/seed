@@ -3,4 +3,7 @@
 #
 # Example:
 # get '/hello', to: ->(env) { [200, {}, ['Hello from Hanami!']] }
-get '/home', to: 'home#index'
+get      '/home',    to: 'home#index'
+get      '/graphql', to: 'graphql#show'
+post     '/graphql', to: 'graphql#show'
+options '/graphql', to: 'graphql#options'
